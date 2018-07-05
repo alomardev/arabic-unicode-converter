@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <title>Arabic Unicode Converter</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
+    <div class="window">
+      <label>النص الأصلي</label>
+      <textarea name="decoded" id="decoded" rows="10"></textarea>
+      <label>النص المشفر</label>
+      <bdo id="encoded-container" dir="ltr"><textarea name="encoded" id="encoded" rows="10"></textarea></bdo>
+    </div>
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js');
+      var decoded = document.getElementById("decoded");
+      var encoded = document.getElementById("encoded");
+      var unicode = require("unicode/category");
+
+      var convert = function(ascii) {
+        for (var i in unicode) {
+          for (var j in unicode[i]) {
+            if (j == ascii) {
+              return unicode[i][j];
+            }
+          }
+        }
+      }
+      var convertToChar = function(hexadecimal) {
+        for (var i in unicode) {
+          for (var j in unicode[i]) {
+            if (unicode[i][j].value == hexadecimal) {
+              return unicode[i][j].symbol;
+            }
+          }
+        }
+        return hexadecimal;
+      }
+      var decode = function() {
+        let input = String(encoded.value);
+        decoded.value = input.replace(/\\u[0-9A-Fa-f]{4}/g, function(match) {
+          return convertToChar(match.slice(2));
+        });;
+      };
+      var encode = function() {
+        let input = String(decoded.value);
+        encoded.value = input.replace(/[\u0600-\u06FF]/g, function(match) {
+          return "\\u" + convert(match.charCodeAt(0)).value;
+        });;
+      };
+      
+      var delayTimer;
+      decoded.oninput = function () {
+        if (decoded == document.activeElement) {
+          clearTimeout(delayTimer);
+          delayTimer = setTimeout(function() {
+            encode();
+          }, 200);
+        }
+      };
+      encoded.oninput = function () {
+        if (encoded == document.activeElement) {
+          clearTimeout(delayTimer);
+          delayTimer = setTimeout(function() {
+            decode();
+          }, 200);
+        }
+      };
+    </script>
+  </body>
+</html>

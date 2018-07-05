@@ -1,0 +1,73 @@
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  outline: none;
+  box-sizing: border-box;
+}
+input, textarea {
+  border: 1px solid #5e5e5e;
+  border-radius: 3px;
+}
+hr {
+  border-top: 1px solid #5e5e5e;
+  width: 100%;
+}
+textarea {
+  resize: none;
+  padding: 5px;
+  font-size: 1em;
+}
+input[type=text]:focus, input[type=number]:focus, textarea:focus, button:focus {
+  border-color: #0077ff;
+  box-shadow: 0 0 0 3px rgba(0, 183, 255, 0.37);
+}
+button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #0a5ebe;
+  color: white;
+}
+button:hover {
+  background-color: #0b478b;
+}
+.window {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  padding: 10px;
+}
+label {
+  margin-bottom: 3px;
+}
+label~label {
+  margin-top: 10px;
+}
+#decoded, bdo#encoded-container {
+  flex: 1 1 auto;
+}
+bdo#encoded-container {
+  display: flex;
+  flex-direction: column;
+}
+#encoded {
+  flex: 1 1 auto;
+}
+
+.footer {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
